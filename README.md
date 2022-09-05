@@ -1,10 +1,18 @@
 # Usage
 
+## Setup
+
 * Change all environment variables in `.env` (don't include any private credentials in there if committing to .git or version control).
 * Make sure to change .git/config to a new repo
 * `yarn install` (using yarn so it currently works correctly with `rain-sdk`, currently issues with `npm install`).
-* `npm run create-bucket`, `npm run configure-bucket` for creating aws s3 bucket from `.env`. Need to configure Cloudflare to work with this too.
+
+## Run Locally
 * `npm start` to run the app.
+
+## Set Up Online
+* `npm run create-bucket`, `npm run configure-bucket` for creating aws s3 bucket from `.env`. 
+* Need to configure Cloudflare to work with this too (CNAME pointing to the s3 bucket).
+* `npm run BUILD-AND-DEPLOY-PROD`
 
 ---
 
