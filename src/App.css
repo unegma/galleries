@@ -80,6 +80,18 @@ canvas {
   justify-content: flex-start;
 }
 
+.buttons-container--left-helper {
+  left:5vw;
+  right: inherit;
+}
+
+.helperText {
+  display: block;
+  margin: 2px 20px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /*ipad mini*/
 @media screen and (min-width: 768px) {
   .buttons-container {
