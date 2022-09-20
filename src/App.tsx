@@ -12,6 +12,7 @@ import HomeScreen from "./components/pages/HomeScreen";
 import DashboardScreen from "./components/pages/DashboardScreen";
 import RelicOne from "./components/pages/RelicOne";
 import RightSideDrawer from "./components/layout/RightSideDrawer";
+import Lion from "./components/3d/Lion";
 // import BookingModal from "./components/BookingModal";
 
 function App() {
@@ -72,7 +73,7 @@ function App() {
           key={'home'}
           path="/"
           element={
-            <HomeScreen  toggleLeftSideDrawer={toggleLeftSideDrawer}/>
+            <HomeScreen toggleLeftSideDrawer={toggleLeftSideDrawer}/>
           }
         />
 
@@ -85,10 +86,10 @@ function App() {
         />
 
         <Route
-          key={'space'}
-          path="/space"
+          key={'lion'}
+          path="/lion"
           element={
-            <RelicOne />
+            <RelicOne cameraPosition={[-5,5,-5]} minDistance={4} maxDistance={10} relic={<Lion />}/>
           }
         />
 
