@@ -23,6 +23,14 @@ export default function LeftSideDrawer(
         key: 'lion',
         name: "Lion",
       },
+      {
+        key: 'car',
+        name: "Car",
+      },
+      {
+        key: 'pitcher',
+        name: "Pitcher",
+      },
     ]
   };
 

@@ -13,6 +13,8 @@ import DashboardScreen from "./components/pages/DashboardScreen";
 import RelicOne from "./components/pages/RelicOne";
 import RightSideDrawer from "./components/layout/RightSideDrawer";
 import Lion from "./components/3d/Lion";
+import Pitcher from "./components/3d/Pitcher";
+import Car from "./components/3d/Car";
 // import BookingModal from "./components/BookingModal";
 
 function App() {
@@ -90,6 +92,22 @@ function App() {
           path="/lion"
           element={
             <RelicOne rotationLock={false} cameraPosition={[-5,5,-5]} minDistance={4} maxDistance={10} relic={<Lion />}/>
+          }
+        />
+
+        <Route
+          key={'pitcher'}
+          path="/pitcher"
+          element={
+            <RelicOne rotationLock={true} cameraPosition={[-1.5,1.5,-1.5]} minDistance={1.5} maxDistance={10} relic={<Pitcher />}/>
+          }
+        />
+
+        <Route
+          key={'car'}
+          path="/car"
+          element={
+            <RelicOne rotationLock={true} cameraPosition={[1.5,1.5,1.5]} minDistance={1.5} maxDistance={10} relic={<Car />}/>
           }
         />
 
