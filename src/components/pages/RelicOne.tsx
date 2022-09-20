@@ -4,7 +4,7 @@ import {Html, OrbitControls, PerspectiveCamera} from "@react-three/drei";
 import React, {Suspense, useState} from "react";
 const initialHelperText = '⚲ or ↺ Model';
 
-export default function RelicOne({relic, cameraPosition, minDistance, maxDistance}: any) {
+export default function RelicOne({relic, cameraPosition, minDistance, maxDistance, rotationLock, minPolarAngle = 1.5, maxPolarAngle = 1.5}: any) {
   const [helperText, setHelperText] = useState(initialHelperText);
 
   const showHelperTextMessage = () => {
@@ -24,7 +24,14 @@ export default function RelicOne({relic, cameraPosition, minDistance, maxDistanc
       <Canvas>
         {/*lock zoom to keep dolls house view. Can use minPolarAngle={Math.PI/2.1} maxPolarAngle={Math.PI/2.1} to lock rotation */}
         {/*<OrbitControls enableZoom={true} enablePan={false} minZoom={Math.PI/2} maxZoom={Math.PI/3} />*/}
-        <OrbitControls enableZoom={true} enablePan={false} minDistance={minDistance} maxDistance={maxDistance} />
+
+        { !rotationLock && (
+          <OrbitControls enableZoom={true} enablePan={false} minDistance={minDistance} maxDistance={maxDistance} />
+        )}
+
+        { rotationLock && (
+          <OrbitControls enableZoom={true} enablePan={false} minDistance={minDistance} maxDistance={maxDistance} minPolarAngle={minPolarAngle} maxPolarAngle={maxPolarAngle} />
+        )}
 
         <ambientLight/>
         <pointLight intensity={3} position={[0, 0, 0]}/>
