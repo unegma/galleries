@@ -83,12 +83,6 @@ export default function BuyButton() {
 
           <br/>
 
-          <Typography>
-            Please enter amount in Eth.
-          </Typography>
-
-          <br/>
-
           <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
             <OutlinedInput
