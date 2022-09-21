@@ -9,6 +9,7 @@ import ListItemText from '@mui/material/ListItemText';
 import {Link} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import {ChevronLeft, ChevronRight, InfoOutlined} from "@mui/icons-material";
+import BuyButton from "./BuyButton";
 
 export default function RightSideDrawer(
   {infoOpen, toggleRightSideDrawer, setDrawerRightOpen, drawerRightOpen, infoTitle = 'The Title', infoText = 'This is info about this piece'}: any) {
@@ -25,8 +26,8 @@ export default function RightSideDrawer(
           component="div"
           sx={{ width: '50vw'}}
           role="presentation"
-          onClick={(event: any) => {toggleRightSideDrawer(event)}}
-          onKeyDown={(event: any) => {toggleRightSideDrawer(event)}}
+          // onClick={(event: any) => {toggleRightSideDrawer(event)}}
+          // onKeyDown={(event: any) => {toggleRightSideDrawer(event)}}
         >
 
           {/*<List>*/}
@@ -68,22 +69,25 @@ export default function RightSideDrawer(
             <Typography className="rightDrawer-text-container__description">
               {infoText}
             </Typography>
+            <Typography className="rightDrawer-text-container__buy-button">
+              <BuyButton />
+            </Typography>
           </div>
 
         </Box>
       </Drawer>
 
-      {/*hacky way to avoid the opacity*/}
-      { drawerRightOpen && (
-        <div className="rightDrawer-text-container">
-          <Typography className="rightDrawer-text-container__title">
-            {infoTitle}
-          </Typography>
-          <Typography className="rightDrawer-text-container__description">
-            {infoText}
-          </Typography>
-        </div>
-      ) }
+      {/*/!*hacky way to avoid the opacity*!/*/}
+      {/*{ drawerRightOpen && (*/}
+      {/*  <div className="rightDrawer-text-container">*/}
+      {/*    <Typography className="rightDrawer-text-container__title">*/}
+      {/*      {infoTitle}*/}
+      {/*    </Typography>*/}
+      {/*    <Typography className="rightDrawer-text-container__description">*/}
+      {/*      {infoText}*/}
+      {/*    </Typography>*/}
+      {/*  </div>*/}
+      {/*) }*/}
     </>
   )
 }

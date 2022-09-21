@@ -289,12 +289,12 @@ canvas {
   min-height: 40vh;
 }
 
-.rightDrawer {
-  opacity: 0.5;
-}
+/*.rightDrawer {*/
+/*  opacity: 0.5;*/
+/*}*/
 
 .rightDrawer-text-container {
-  position: absolute;
+  /*position: absolute;*/
   z-index: 999;
   bottom: 50vh; /* fix for mobiles */
   right: 15vw;
@@ -302,8 +302,10 @@ canvas {
   display: flex;
   flex-direction: column;
   align-content: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
   text-align: center;
+  height: 100vh;
+
 }
 
 .rightDrawer-text-container__title {
