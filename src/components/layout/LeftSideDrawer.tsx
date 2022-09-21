@@ -12,8 +12,8 @@ import {Menu} from "@mui/icons-material";
 import {MultiLevel} from "./SubMenus";
 
 export default function LeftSideDrawer(
-  {drawerOpen, toggleLeftSideDrawer, setShowImages, setShowInfoModal}:
-    {drawerOpen: any, toggleLeftSideDrawer: any, setShowImages: any, setShowInfoModal: any}) {
+  {drawerOpen, toggleLeftSideDrawer, setShowImages, setShowInfoModal, setInfoTitle, setInfoText}:
+    {drawerOpen: any, toggleLeftSideDrawer: any, setShowImages: any, setShowInfoModal: any, setInfoText: Function, setInfoTitle: Function}) {
 
   const SUBMENU_TITLE = 'The Pieces';
   const spacesList = {
@@ -22,14 +22,20 @@ export default function LeftSideDrawer(
       {
         key: 'lion',
         name: "Lion",
+        infoTitle: "This is a Lion",
+        infoText: "This is a description about a Lion",
       },
       {
         key: 'car',
         name: "Car",
+        infoTitle: "This is a Car",
+        infoText: "This is a description about a Car",
       },
       {
         key: 'pitcher',
         name: "Pitcher",
+        infoTitle: "This is a Pitcher Plant",
+        infoText: "This is a description about a Pitcher Plant",
       },
     ]
   };
@@ -86,7 +92,7 @@ export default function LeftSideDrawer(
 
         <Divider className='light-divider' />
 
-        <MultiLevel className="js-ignore-close" item={spacesList} />
+        <MultiLevel className="js-ignore-close" item={spacesList} setInfoTitle={setInfoTitle} setInfoText={setInfoText} />
 
         <Divider className='light-divider' />
 

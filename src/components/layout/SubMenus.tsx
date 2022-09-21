@@ -10,7 +10,7 @@ import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import {useState} from "react";
 import {Collapse} from "@mui/material";
 
-export const MultiLevel = ({ item }: any) => {
+export const MultiLevel = ({ item, setInfoText, setInfoTitle }: any) => {
   const { items: children } = item;
   const [open, setOpen] = useState(false);
 
@@ -27,7 +27,7 @@ export const MultiLevel = ({ item }: any) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {children.map((child: any, key: any) => (
-            <SingleLevel key={key} item={child} />
+            <SingleLevel key={key} item={child} setInfoText={setInfoText} setInfoTitle={setInfoTitle} />
           ))}
         </List>
       </Collapse>
@@ -35,9 +35,9 @@ export const MultiLevel = ({ item }: any) => {
   );
 };
 
-export const SingleLevel = ({ item }: any) => {
+export const SingleLevel = ({ item, setInfoText, setInfoTitle }: any) => {
   return (
-    <Link to={`/${item.key}`} className="drawer-link">
+    <Link to={`/${item.key}`} className="drawer-link" onClick={() => {setInfoText(item.infoText); setInfoTitle(item.infoTitle)}}>
       <ListItem key={`${item.key}`} disablePadding>
         <ListItemButton>
           <ListItemText primary={`${item.name}`} />

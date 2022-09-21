@@ -26,6 +26,10 @@ function App() {
   const [drawerRightOpen, setDrawerRightOpen] = React.useState(false);
   const [infoOpen, setInfoOpen] = React.useState(false);
 
+  // TODO these aren't goint to get updated when route changes if the url is loaded directly
+  const [infoTitle, setInfoTitle] = React.useState('The Title');
+  const [infoText, setInfoText] = React.useState('The Description');
+
   const toggleLeftSideDrawer = (event: React.KeyboardEvent | React.MouseEvent) => {
       if (event.type === 'keydown' && (
         (event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift'))
@@ -58,6 +62,8 @@ function App() {
         toggleLeftSideDrawer={toggleLeftSideDrawer}
         setShowImages={setShowImages}
         setShowInfoModal={setShowInfoModal}
+        setInfoTitle={setInfoTitle}
+        setInfoText={setInfoText}
       />
 
       <RightSideDrawer
@@ -66,6 +72,8 @@ function App() {
         // setShowImages={setShowImages}
         // setShowInfoModal={setShowInfoModal}
         // showInfoModal={showInfoModal}
+        infoTitle={infoTitle}
+        infoText={infoText}
         drawerRightOpen={drawerRightOpen}
         setDrawerRightOpen={setDrawerRightOpen}
       />
