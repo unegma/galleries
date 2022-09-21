@@ -15,6 +15,7 @@ import RightSideDrawer from "./components/layout/RightSideDrawer";
 import Lion from "./components/3d/Lion";
 import Pitcher from "./components/3d/Pitcher";
 import Car from "./components/3d/Car";
+import Statue from "./components/3d/Statue";
 // import BookingModal from "./components/BookingModal";
 
 function App() {
@@ -116,6 +117,13 @@ function App() {
           path="/car"
           element={
             <RelicOne rotationLock={true} cameraPosition={[1.5,1.5,1.5]} minDistance={1.5} maxDistance={10} relic={<Car />}/>
+          }
+        />
+        <Route
+          key={'statue'}
+          path="/statue"
+          element={
+            <RelicOne rotationLock={true} cameraPosition={[1.5,1.5,1.5]} minDistance={1.5} maxDistance={10} relic={<Statue />}/>
           }
         />
 

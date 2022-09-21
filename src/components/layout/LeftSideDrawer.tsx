@@ -37,6 +37,12 @@ export default function LeftSideDrawer(
         infoTitle: "This is a Pitcher Plant",
         infoText: "This is a description about a Pitcher Plant",
       },
+      {
+        key: 'statue',
+        name: "Statue",
+        infoTitle: "This is a Statue",
+        infoText: "This is a description about a Statue",
+      },
     ]
   };
 
