@@ -390,6 +390,7 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     // numberOfRules = getNumberOfRules(config); // for showing rain script
     const [args, rules] = prepare(config);
 
+    // may want to split the above into a different function as it is ipfs specific
 
     const factory = new ethers.Contract(
       VAPOUR_FACTORY_ADDRESS,
