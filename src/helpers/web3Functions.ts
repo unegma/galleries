@@ -365,6 +365,7 @@ export const hexlifySources = (currency: Currency): Currency => {
  * Functions for deploying the NFT
  * @param signer
  * @param account
+ * @param config
  */
 export async function deploy721A (signer: any, account: string, config: Vapour721AConfig) {
   let deploying = true;
