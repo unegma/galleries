@@ -148,7 +148,7 @@ export default function DashboardScreen({} : adminPanelProps) {
       owner: account,
       admin: account,
       useNativeToken: true,
-      soulbound: true,
+      soulbound: soulbound,
     }
 
     await deploy721A(signer, account, config);
