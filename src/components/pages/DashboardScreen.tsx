@@ -21,34 +21,107 @@ type adminPanelProps = {
 export default function DashboardScreen({} : adminPanelProps) {
 
   const [adminConfigPage, setAdminConfigPage] = useState(0);
-  const [reserveClaimable, setReserveClaimable] = useState("100");
-  const [reserveName, setReserveName] = React.useState("Test");
-  const [reserveSymbol, setReserveSymbol] = React.useState("tTKN");
+  const [reserveClaimable, setReserveClaimable] = useState("100"); // todo remove
+
+  const [collectionName, setCollectionName] = React.useState("Test");
+  const [collectionSymbol, setCollectionSymbol] = React.useState("tTKN");
+  const [description, setDescription] = React.useState("A Description");
+  const [supply, setSupply] = React.useState("20");
+  const [royaltyPercentage, setRoyaltyPercentage] = React.useState("20");
+  const [currency, setCurrency] = React.useState("MATIC");
+
+  const [imageURL, setImageURL] = React.useState("ImageURL");
+
+  // roles: admin, recipient, owner
+
+  const [saleStart, setSaleStart] = React.useState("1/1/2000");
+  const [saleEnd, setSaleEnd] = React.useState("1/1/2000"); // forever
+  const [pricingRule, setPricingRule] = React.useState("Fixed");
+  const [price, setPrice] = React.useState("1");
+  // no wallet cap
+  // no restrictions on allowed groups
+
+  const [soulbound, setSoulBound] = React.useState("true");
+
+  // rain script
+
   const [buttonLock, setButtonLock] = useState(false);
 
 
   function resetToDefault() {
-    setReserveClaimable("100");
-    setReserveName("Test");
-    setReserveSymbol("tTKN");
+    // setReserveClaimable("100");
+    setCollectionName("Test");
+    setCollectionSymbol("tTKN");
+    setDescription("A Description");
+    setSupply("20");
+    setRoyaltyPercentage("20");
+    setCurrency("MATIC");
+    setImageURL("ImageURL");
+    setSaleStart("1/1/2020");
+    setSaleEnd("1/1/2020");
+    setPricingRule("Fixed");
+    setPrice("1");
+    setSoulBound("true");
   }
 
-  const handleChangeReserveName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setReserveName(event.target.value);
+  const handleChangeCollectionName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCollectionName(event.target.value);
   }
-  const handleChangeReserveSymbol = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newReserveSymbol = event.target.value;
-    // if (newReserveSymbol.length <= 0) { alert("Must be > 0."); return;}
-    if (newReserveSymbol.length > 11) { alert("Symbol must be 11 characters or less."); return;}
-    setReserveSymbol(newReserveSymbol);
+  const handleChangeCollectionSymbol = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCollectionSymbol(event.target.value);
   }
-  const handleChangeReserveClaimable = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let newClaimable = event.target.value;
-    if (parseInt(newClaimable) <= 0) { alert("Must be > 0."); return;}
-    if (parseInt(newClaimable) > 1000) { alert("Can't have more than 1000 in this example."); return;}
-    // if (newClaimable == "") { alert("Must be > 0."); return;}
-    setReserveClaimable(newClaimable);
+  const handleChangeDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(event.target.value);
   }
+  const handleChangeSupply = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSupply(event.target.value);
+  }
+  const handleChangeRoyaltyPercentage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRoyaltyPercentage(event.target.value);
+  }
+  const handleChangeCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrency(event.target.value);
+  }
+  const handleChangeImageURL = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImageURL(event.target.value);
+  }
+  const handleChangeSaleStart = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSaleStart(event.target.value);
+  }
+  const handleChangeSaleEnd = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSaleEnd(event.target.value);
+  }
+  const handleChangePricingRule = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPricingRule(event.target.value);
+  }
+  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPrice(event.target.value);
+  }
+  const handleChangeSoulBound = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSoulBound(event.target.value);
+  }
+
+
+
+
+
+
+  // const handleChangeReserveName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setReserveName(event.target.value);
+  // }
+  // const handleChangeReserveSymbol = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   let newReserveSymbol = event.target.value;
+  //   // if (newReserveSymbol.length <= 0) { alert("Must be > 0."); return;}
+  //   if (newReserveSymbol.length > 11) { alert("Symbol must be 11 characters or less."); return;}
+  //   setReserveSymbol(newReserveSymbol);
+  // }
+  // const handleChangeReserveClaimable = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   let newClaimable = event.target.value;
+  //   if (parseInt(newClaimable) <= 0) { alert("Must be > 0."); return;}
+  //   if (parseInt(newClaimable) > 1000) { alert("Can't have more than 1000 in this example."); return;}
+  //   // if (newClaimable == "") { alert("Must be > 0."); return;}
+  //   setReserveClaimable(newClaimable);
+  // }
 
   const deployToken = () => {};
 
@@ -98,6 +171,8 @@ export default function DashboardScreen({} : adminPanelProps) {
         {/*  <OrbitControls autoRotate autoRotateSpeed={1} enableZoom={false} enablePan={false} enableRotate={false} />*/}
         {/*</Canvas>*/}
 
+
+
         { adminConfigPage === 0 && (
           <>
             <Typography variant="h5" component="h3" color="black">
@@ -105,32 +180,128 @@ export default function DashboardScreen({} : adminPanelProps) {
             </Typography>
 
             <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Reserve Token Name</InputLabel>
+              <InputLabel className="input-box-label" htmlFor="component-helper">Collection Name</InputLabel>
               <Input
                 id="component-helper"
-                value={reserveName}
-                onChange={handleChangeReserveName}
+                value={collectionName}
+                onChange={handleChangeCollectionName}
+              />
+            </FormControl>
+
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Collection Symbol</InputLabel>
+              <Input
+                id="component-helper"
+                value={collectionSymbol}
+                onChange={handleChangeCollectionSymbol}
               />
             </FormControl>
 
             <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Reserve Token Symbol</InputLabel>
+              <InputLabel className="input-box-label" htmlFor="component-helper">Description</InputLabel>
               <Input
                 id="component-helper"
-                value={reserveSymbol}
-                onChange={handleChangeReserveSymbol}
+                value={description}
+                onChange={handleChangeDescription}
               />
             </FormControl>
 
             <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Amount a Faucet User will Receive Each Claim</InputLabel>
+              <InputLabel className="input-box-label" htmlFor="component-helper">Supply</InputLabel>
               <Input
                 id="component-helper"
-                value={reserveClaimable}
-                onChange={handleChangeReserveClaimable}
-                endAdornment={<InputAdornment position="end">{reserveSymbol}</InputAdornment>}
+                value={supply}
+                onChange={handleChangeSupply}
               />
             </FormControl>
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Royalty Percentage</InputLabel>
+              <Input
+                id="component-helper"
+                value={royaltyPercentage}
+                onChange={handleChangeRoyaltyPercentage}
+              />
+            </FormControl>
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Currency</InputLabel>
+              <Input
+                id="component-helper"
+                value={currency}
+                onChange={handleChangeCurrency}
+              />
+            </FormControl>
+
+
+
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Image URL</InputLabel>
+              <Input
+                id="component-helper"
+                value={imageURL}
+                onChange={handleChangeImageURL}
+              />
+            </FormControl>
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Sale Start</InputLabel>
+              <Input
+                id="component-helper"
+                value={saleStart}
+                onChange={handleChangeSaleStart}
+              />
+            </FormControl>
+
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Sale End</InputLabel>
+              <Input
+                id="component-helper"
+                value={saleEnd}
+                onChange={handleChangeSaleEnd}
+              />
+            </FormControl>
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Pricing Rule</InputLabel>
+              <Input
+                id="component-helper"
+                value={pricingRule}
+                onChange={handleChangePricingRule}
+              />
+            </FormControl>
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Price</InputLabel>
+              <Input
+                id="component-helper"
+                value={price}
+                onChange={handleChangePrice}
+              />
+            </FormControl>
+
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Soul Bound</InputLabel>
+              <Input
+                id="component-helper"
+                value={soulbound}
+                onChange={handleChangeSoulBound}
+              />
+            </FormControl>
+
+
+            {/*<FormControl variant="standard">*/}
+            {/*  <InputLabel className="input-box-label" htmlFor="component-helper">Amount a Faucet User will Receive Each Claim</InputLabel>*/}
+            {/*  <Input*/}
+            {/*    id="component-helper"*/}
+            {/*    value={reserveClaimable}*/}
+            {/*    onChange={handleChangeReserveClaimable}*/}
+            {/*    endAdornment={<InputAdornment position="end">{reserveSymbol}</InputAdornment>}*/}
+            {/*  />*/}
+            {/*</FormControl>*/}
 
             <div className="buttons-box">
               <Button className="fifty-percent-button" variant="outlined" onClick={() => {resetToDefault()}}>Reset</Button>
