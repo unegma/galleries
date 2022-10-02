@@ -1,4 +1,4 @@
-import {type BigNumberish, type BytesLike, ethers} from "ethers"; // todo is it necessary to use 'type'?
+import {type BigNumberish, type BytesLike, Contract, ethers} from "ethers"; // todo is it necessary to use 'type'?
 import axios from 'axios';
 import VapourFactoryArtifact from "./abis/Vapour721AFactory.json";
 import VapourArtifact from "./abis/Vapour721A.json";
@@ -367,8 +367,29 @@ export const hexlifySources = (currency: Currency): Currency => {
  * @param account
  * @param config
  */
-export async function deploy721A (signer: any, account: string, config: Vapour721AConfig) {
+export async function deploy721A (signer: any, account: string, config: Vapour721AConfig|any) {
   let deploying = true;
+
+  // let config = {
+  //   name: collectionName,
+  //   symbol: collectionSymbol,
+  //   description: description,
+  //   imageFile: File,
+  //   maxSupply: supply,
+  //   currency: currency,
+  //   royalty: royaltyPercentage,
+  //   recipient: account,
+  //   owner: account,
+  //   admin: account,
+  //   useNativeToken: true,
+  //   currencyContract: Contract,
+  //   phases: Phase[],
+  //   soulbound: true,
+  //   erc20info: ERC20Info,
+  //   mediaUploadResp: any,
+  //   baseURI: string,
+  //   image?: string
+  // }
 
   try {
     if (account === "" || typeof account === 'undefined') {

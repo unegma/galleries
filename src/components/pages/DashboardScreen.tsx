@@ -4,11 +4,17 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
-import React, {Suspense, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import {Environment, Html, OrbitControls} from "@react-three/drei";
 import {Canvas} from "@react-three/fiber";
 // import ReserveToken from "../3d/ReserveToken";
 import {InputAdornment} from "@mui/material";
+import {deploy721A} from "../../helpers/web3Functions";
+import {Contract, Signer} from "ethers";
+import {useWeb3React} from "@web3-react/core";
+import {Web3Provider} from "@ethersproject/providers";
+import {Phase} from "../../types/Phase";
+import {ERC20Info} from "../../types/ERC20Info";
 // import Warning from "../various/Warning";
 // import {TransactionsChartDeploy} from "../various/TransactionsChartDeploy";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -19,6 +25,10 @@ type adminPanelProps = {
 }
 
 export default function DashboardScreen({} : adminPanelProps) {
+  const context = useWeb3React<Web3Provider>(); // todo check because this web3provider is from ethers
+  const { connector, library, chainId, account, activate, deactivate, active, error }: any = context;
+
+  const [signer, setSigner] = useState<Signer|undefined>(undefined);
 
   const [adminConfigPage, setAdminConfigPage] = useState(0);
   const [reserveClaimable, setReserveClaimable] = useState("100"); // todo remove
@@ -47,6 +57,9 @@ export default function DashboardScreen({} : adminPanelProps) {
 
   const [buttonLock, setButtonLock] = useState(false);
 
+  useEffect(() => {
+    setSigner(library?.getSigner());
+  }, [library, account]);
 
   function resetToDefault() {
     // setReserveClaimable("100");
@@ -123,7 +136,23 @@ export default function DashboardScreen({} : adminPanelProps) {
   //   setReserveClaimable(newClaimable);
   // }
 
-  const deployToken = () => {};
+  const deployToken = async () => {
+    let config = {
+      name: collectionName,
+      symbol: collectionSymbol,
+      description: description,
+      maxSupply: supply,
+      currency: currency,
+      royalty: royaltyPercentage,
+      recipient: account,
+      owner: account,
+      admin: account,
+      useNativeToken: true,
+      soulbound: true,
+    }
+
+    await deploy721A(signer, account, config);
+  };
 
   return (
     <>
