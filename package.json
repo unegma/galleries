@@ -13,6 +13,7 @@
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "@web3-react/walletconnect-connector": "6.2.4",
+    "axios": "^0.27.2",
     "ethers": "^5.7.0",
     "rain-sdk": "git+https://github.com/beehive-innovation/rain-sdk.git#c98bf062539d34ce7efa523eac7a045b443d199c",
     "react": "^18.1.0",
