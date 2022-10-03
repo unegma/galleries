@@ -215,12 +215,16 @@ const generatePrice = (
   }): Price => {
 
   // if (priceRule.type == PricingRules.FixedPrice) {
+    console.log('F:generatePrice')
+
+    console.log(priceRule,context);
 
     return {
       struct: {
         subject: 'constant',
         args: {
-          value: parseUnits(priceRule.startPrice.toString(), context.currencyInfo.decimals)
+          // value: parseUnits(priceRule.startPrice.toString(), context.currencyInfo.decimals)
+          value: parseUnits(priceRule.startPrice.toString(), 18) // todo hard coding, need to figure out how to get the value from the native currency
         }
       }
     } as Price
@@ -369,6 +373,7 @@ export const hexlifySources = (currency: Currency): Currency => {
  */
 export async function deploy721A (signer: any, account: string, config: Vapour721AConfig|any) {
   let deploying = true;
+  console.log('here')
 
   // let config = {
   //   name: collectionName,
@@ -397,16 +402,76 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
       return;
     }
 
+    // todo hard code for now
+
+    config.mediaUploadResp = {
+      IpfsHash: "QmbzLvSCLxjZbVfdcGCnSoxfvbpWLqsAoMzb9bmWa1BtnK",
+      PinSize: 409592,
+      Timestamp: "2022-10-02T18:45:29.917Z",
+      isDuplicate: true
+    }
+
+    // todo fix this one
+    config.imageFile = {
+      "path": "TexturesCom_Grungemaps0153_3_seamless_S.png"
+    }
+
+    // todo not sure how this is being generated
+    config.baseURI = "ipfs://QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL";
+
+    // config.currency = "0x25a4Dd4cd97ED462EB5228de47822e636ec3E31A"; // matic?
+    config.currency = "0x0000000000000000000000000000000000000000";
+  // todo add currency contract
+    // todo add erc20 info
+
+
+
+    config.maxSupply = parseInt(config.maxSupply);
+    config.soulbound = true;
+    config.royalty = parseInt(config.royalty);
+
+    config.phases = [
+      {
+        "start": "now",
+        "pricing": {
+          "type": 0,
+          "startPrice": 1
+        },
+        "allowedGroups": [],
+        "walletCap": ""
+      }
+    ]
+
+    // todo hard code for now
+
+    console.log('config');
+    console.log(config);
+    // return;
+
     let uploadComplete = false;
     let progress = 0;
+    console.log('config', config)
     const metadatas = generateMetadata(config);
-    const mediaUploadResp = await pin(metadatas, progress);
+    console.log('metadatas')
+    console.log(metadatas)
 
-    if (mediaUploadResp?.name == "AxiosError") {
-      throw new Error('IPFS Error');
-    } else {
-      uploadComplete = true;
+    // todo remove pinning for now
+    // const mediaUploadResp = await pin(metadatas, progress);
+
+
+    const mediaUploadResp = {
+      "IpfsHash": "QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL",
+      "PinSize": 3614,
+      "Timestamp": "2022-10-02T18:46:11.453Z",
+      "isDuplicate": true
     }
+
+    // if (mediaUploadResp?.name == "AxiosError") {
+    //   throw new Error('IPFS Error');
+    // } else {
+    //   uploadComplete = true;
+    // }
+
     config.baseURI = `ipfs://${mediaUploadResp.IpfsHash}`;
     // numberOfRules = getNumberOfRules(config); // for showing rain script
     const [args, rules] = prepare(config);
@@ -426,6 +491,10 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     const receipt = await tx.wait();
     address = getNewChildFromReceipt(receipt, factory);
 
+    console.log('completed');
+    console.log(receipt);
+    console.log(address)
+
     deploying = false;
     console.log(deploying)
 
@@ -438,12 +507,111 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
 
     return new ethers.Contract(address, VapourArtifact.abi, signer);
 
-  } catch {
+  } catch (err) {
     deploying = false;
+    console.log(err)
   }
 };
 
 
+
+
+//
+// export const initVapourConfig = (signerAddress): Vapour721AConfig => {
+//   console.log('initVapourConfig')
+//   return {
+//     name: "josh",
+//     symbol: "test",
+//     description: "a description",
+//     imageFile: null,
+//     maxSupply: 20,
+//     currency: "0x25a4Dd4cd97ED462EB5228de47822e636ec3E31A",
+//     royalty: 20,
+//     recipient: signerAddress,
+//     owner: signerAddress,
+//     admin: signerAddress,
+//     useNativeToken: false,
+//     currencyContract: null,
+//     phases: [
+//       {
+//         "start": "now",
+//         "pricing": {
+//           "type": 0,
+//           "startPrice": 1
+//         },
+//         "allowedGroups": [
+//           {
+//             "type": 0,
+//             "contractAddress": "0x08E46BB0510180bB5e763E73bF3Ae5d49004D6D5"
+//           }
+//         ],
+//         "walletCap": 5
+//       },
+//       {
+//         "start": "2022-08-07T23:38",
+//         "pricing": {
+//           "type": 0,
+//           "startPrice": 10
+//         },
+//         "allowedGroups": [
+//           {
+//             "type": 1,
+//             "contractAddress": "0x8d88dfb98ba02a6a15784966ed9e6ffa734ad4a6",
+//             "minBalance": 1
+//           }
+//         ],
+//         "walletCap": 20
+//       }
+//     ],
+//     soulbound: true,
+//     erc20info: {
+//       ready: false,
+//       name: null,
+//       symbol: null,
+//       decimals: null,
+//       balance: null,
+//     },
+//     mediaUploadResp: null,
+//     baseURI: null
+//   }
+//   return {
+//     name: null,
+//     symbol: null,
+//     description: null,
+//     imageFile: null,
+//     maxSupply: null,
+//     currency: null,
+//     royalty: null,
+//     recipient: signerAddress,
+//     owner: signerAddress,
+//     admin: signerAddress,
+//     useNativeToken: false,
+//     currencyContract: null,
+//     phases: [initVapourPhase()],
+//     soulbound: false,
+//     erc20info: {
+//       ready: false,
+//       name: null,
+//       symbol: null,
+//       decimals: null,
+//       balance: null,
+//     },
+//     mediaUploadResp: null,
+//     baseURI: null
+//   }
+// }
+
+// export const initVapourPhase = (): Phase => {
+//   return {
+//     start: null,
+//     pricing: {
+//       type: PricingRules.FixedPrice as PricingRules.FixedPrice,
+//       startPrice: null,
+//     },
+//     allowedGroups: [],
+//     walletCap: null
+//   }
+// }
 
 //
 //
