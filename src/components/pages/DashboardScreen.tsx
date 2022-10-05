@@ -46,7 +46,7 @@ export default function DashboardScreen({} : adminPanelProps) {
   const [saleStart, setSaleStart] = React.useState("1/1/2000");
   const [saleEnd, setSaleEnd] = React.useState("1/1/2000"); // forever
   const [pricingRule, setPricingRule] = React.useState("Fixed");
-  const [price, setPrice] = React.useState(1);
+  const [price, setPrice] = React.useState(0.0001);
   // no wallet cap
   // no restrictions on allowed groups
 
@@ -71,7 +71,7 @@ export default function DashboardScreen({} : adminPanelProps) {
     // setSaleStart("1/1/2020");
     // setSaleEnd("1/1/2020");
     setPricingRule("Fixed");
-    setPrice(1);
+    setPrice(0.0001);
     setSoulBound(true);
   }
 
@@ -103,7 +103,7 @@ export default function DashboardScreen({} : adminPanelProps) {
     setPricingRule(event.target.value);
   }
   const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(parseInt(event.target.value));
+    setPrice(parseFloat(event.target.value));
   }
   const handleChangeSoulBound = (event: React.ChangeEvent<HTMLInputElement>) => {
     let soulbound = event.target.value === 'true' ? true : false
@@ -322,6 +322,7 @@ export default function DashboardScreen({} : adminPanelProps) {
               <InputLabel className="input-box-label" htmlFor="component-helper">Price</InputLabel>
               <Input
                 id="component-helper"
+                type="number"
                 value={price}
                 onChange={handleChangePrice}
               />
