@@ -154,7 +154,7 @@ export default function DashboardScreen({} : adminPanelProps) {
       owner: account,
       admin: account,
       useNativeToken: true,
-      currencyContract: undefined,
+      // currencyContract: undefined,
       phases: [
         {
           "start": "now",

@@ -15,7 +15,7 @@ export interface Vapour721AConfig {
   owner: string,
   admin: string,
   useNativeToken: boolean,
-  currencyContract: Contract|undefined,
+  // currencyContract: Contract|undefined,
   phases: Phase[],
   soulbound: boolean,
   erc20info: ERC20Info|undefined,

@@ -501,7 +501,6 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     console.log(address)
 
     deploying = false;
-    console.log(deploying)
 
 
     // todo figure out what the replacer function is
