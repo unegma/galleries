@@ -216,7 +216,7 @@ const generatePrice = (
     phase: Phase,
     phases: Phase[],
     phaseIndex: number,
-    currencyInfo: ERC20Info
+    currencyInfo?: ERC20Info
   }): Price => {
 
   // if (priceRule.type == PricingRules.FixedPrice) {
@@ -295,7 +295,9 @@ const prepareBuyConfig = (config: Vapour721AConfig): [StateConfig, Currency] => 
     if (config.erc20info !== undefined) {
       price = generatePrice(phase.pricing, {phase, phases, phaseIndex, currencyInfo: config.erc20info})
     } else {
-      throw new Error('Missing Config');
+      price = generatePrice(phase.pricing, {phase, phases, phaseIndex})
+
+      // throw new Error('Missing Config');
     }
 
     return {
