@@ -77,7 +77,12 @@ export const pin = async (data: Object[] | File, progressStore?: any) => {
     data: formData,
     onUploadProgress: ((p) => {
       console.log(`Uploading...  ${p.loaded} / ${p.total}`);
-      progressStore.set(p.loaded / p.total);
+
+      // todo find a way to add this in react
+      if(progressStore) {
+        progressStore.set(p.loaded / p.total);
+      }
+
     }),
   })
   return response.data
@@ -403,17 +408,21 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     }
 
     // todo hard code for now
+    const imageUploadResponse = await pin(config.imageFile);
+    console.log('imageUploadResponse')
+    console.log(imageUploadResponse)
+    config.mediaUploadResp = imageUploadResponse;
 
-    config.mediaUploadResp = {
-      IpfsHash: "QmbzLvSCLxjZbVfdcGCnSoxfvbpWLqsAoMzb9bmWa1BtnK",
-      PinSize: 409592,
-      Timestamp: "2022-10-02T18:45:29.917Z",
-      isDuplicate: true
-    }
+    // config.mediaUploadResp = {
+    //   IpfsHash: "QmbzLvSCLxjZbVfdcGCnSoxfvbpWLqsAoMzb9bmWa1BtnK",
+    //   PinSize: 409592,
+    //   Timestamp: "2022-10-02T18:45:29.917Z",
+    //   isDuplicate: true
+    // }
 
 
     // todo not sure how this is being generated
-    config.baseURI = "ipfs://QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL";
+    // config.baseURI = "ipfs://QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL";
 
     // config.currency = "0x25a4Dd4cd97ED462EB5228de47822e636ec3E31A"; // matic?
     config.currency = "0x0000000000000000000000000000000000000000";
@@ -445,22 +454,23 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     // return;
 
     let uploadComplete = false;
-    let progress = 0;
+
     console.log('config', config)
     const metadatas = generateMetadata(config);
     console.log('metadatas')
     console.log(metadatas)
 
     // todo remove pinning for now
-    // const mediaUploadResp = await pin(metadatas, progress);
+    const nftsUploadResp = await pin(metadatas);
+    console.log('nftsUploadResp')
+    console.log(nftsUploadResp)
 
-
-    const mediaUploadResp = {
-      "IpfsHash": "QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL",
-      "PinSize": 3614,
-      "Timestamp": "2022-10-02T18:46:11.453Z",
-      "isDuplicate": true
-    }
+    // const mediaUploadResp = {
+    //   "IpfsHash": "QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL",
+    //   "PinSize": 3614,
+    //   "Timestamp": "2022-10-02T18:46:11.453Z",
+    //   "isDuplicate": true
+    // }
 
     // if (mediaUploadResp?.name == "AxiosError") {
     //   throw new Error('IPFS Error');
@@ -468,7 +478,7 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     //   uploadComplete = true;
     // }
 
-    config.baseURI = `ipfs://${mediaUploadResp.IpfsHash}`;
+    config.baseURI = `ipfs://${nftsUploadResp.IpfsHash}`;
     // numberOfRules = getNumberOfRules(config); // for showing rain script
     const [args, rules] = prepare(config);
 

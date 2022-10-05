@@ -315,7 +315,7 @@ export default function DashboardScreen({} : adminPanelProps) {
             </FormControl>
 
             <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Soul Bound</InputLabel>
+              <InputLabel className="input-box-label" htmlFor="component-helper">Image</InputLabel>
               <Input
                 id="component-helper"
                 type="file"
