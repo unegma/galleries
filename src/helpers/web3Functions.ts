@@ -411,10 +411,6 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
       isDuplicate: true
     }
 
-    // todo fix this one
-    config.imageFile = {
-      "path": "TexturesCom_Grungemaps0153_3_seamless_S.png"
-    }
 
     // todo not sure how this is being generated
     config.baseURI = "ipfs://QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL";

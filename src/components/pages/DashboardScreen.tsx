@@ -39,8 +39,7 @@ export default function DashboardScreen({} : adminPanelProps) {
   const [supply, setSupply] = React.useState("20");
   const [royaltyPercentage, setRoyaltyPercentage] = React.useState("20");
   const [currency, setCurrency] = React.useState("MATIC");
-
-  const [imageURL, setImageURL] = React.useState("ImageURL");
+  const [selectedImage, setSelectedImage] = useState<File|undefined>(undefined);
 
   // roles: admin, recipient, owner
 
@@ -69,7 +68,6 @@ export default function DashboardScreen({} : adminPanelProps) {
     setSupply("20");
     setRoyaltyPercentage("20");
     setCurrency("MATIC");
-    setImageURL("ImageURL");
     setSaleStart("1/1/2020");
     setSaleEnd("1/1/2020");
     setPricingRule("Fixed");
@@ -95,9 +93,6 @@ export default function DashboardScreen({} : adminPanelProps) {
   const handleChangeCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrency(event.target.value);
   }
-  const handleChangeImageURL = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImageURL(event.target.value);
-  }
   const handleChangeSaleStart = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSaleStart(event.target.value);
   }
@@ -112,6 +107,15 @@ export default function DashboardScreen({} : adminPanelProps) {
   }
   const handleChangeSoulBound = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSoulBound(event.target.value);
+  }
+  const handleChangeSelectedImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      console.log('here image')
+      let img = event.target.files[0];
+      setSelectedImage(img);
+      console.log('selected image:')
+      console.log(img)
+    }
   }
 
 
@@ -141,6 +145,7 @@ export default function DashboardScreen({} : adminPanelProps) {
       name: collectionName,
       symbol: collectionSymbol,
       description: description,
+      imageFile: selectedImage,
       maxSupply: supply,
       currency: currency,
       royalty: royaltyPercentage,
@@ -263,18 +268,6 @@ export default function DashboardScreen({} : adminPanelProps) {
               />
             </FormControl>
 
-
-
-
-            <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Image URL</InputLabel>
-              <Input
-                id="component-helper"
-                value={imageURL}
-                onChange={handleChangeImageURL}
-              />
-            </FormControl>
-
             <FormControl variant="standard">
               <InputLabel className="input-box-label" htmlFor="component-helper">Sale Start</InputLabel>
               <Input
@@ -321,6 +314,14 @@ export default function DashboardScreen({} : adminPanelProps) {
               />
             </FormControl>
 
+            <FormControl variant="standard">
+              <InputLabel className="input-box-label" htmlFor="component-helper">Soul Bound</InputLabel>
+              <Input
+                id="component-helper"
+                type="file"
+                onChange={(event: any) => {handleChangeSelectedImage(event)}}
+              />
+            </FormControl>
 
             {/*<FormControl variant="standard">*/}
             {/*  <InputLabel className="input-box-label" htmlFor="component-helper">Amount a Faucet User will Receive Each Claim</InputLabel>*/}
