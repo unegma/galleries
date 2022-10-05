@@ -291,7 +291,12 @@ const prepareBuyConfig = (config: Vapour721AConfig): [StateConfig, Currency] => 
 
     // quantity and price
     const quantity: Quantity = { struct: maxCapForWallet(ethers.BigNumber.from(phase.walletCap || ethers.constants.MaxUint256)) }
-    const price: Price = generatePrice(phase.pricing, { phase, phases, phaseIndex, currencyInfo: config.erc20info })
+    let price: Price;
+    if (config.erc20info !== undefined) {
+      price = generatePrice(phase.pricing, {phase, phases, phaseIndex, currencyInfo: config.erc20info})
+    } else {
+      throw new Error('Missing Config');
+    }
 
     return {
       priceConditions: conditions,
@@ -337,6 +342,10 @@ export const prepare = (config: Vapour721AConfig): [InitializeConfigStruct, Curr
   const vmStateConfig = VM.combiner(soulConfig, buyConfig, { numberOfSources: 0 })
   const royaltyBPS = (config.royalty / 100) * 10000;
   const currency = config.useNativeToken ? ethers.constants.AddressZero : config.currency
+
+  if (config.baseURI === undefined) {
+    throw new Error('Missing Config');
+  }
 
   return [{
     name: config.name,
@@ -408,7 +417,14 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     }
 
     // todo hard code for now
-    const imageUploadResponse = await pin(config.imageFile);
+
+    let imageUploadResponse;
+    if (config.imageFile !== undefined) {
+      imageUploadResponse = await pin(config.imageFile);
+    } else {
+      throw new Error('No Image');
+    }
+
     console.log('imageUploadResponse')
     console.log(imageUploadResponse)
     config.mediaUploadResp = imageUploadResponse;
@@ -460,6 +476,7 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
 
     config.baseURI = `ipfs://${nftsUploadResp.IpfsHash}`;
     // numberOfRules = getNumberOfRules(config); // for showing rain script
+
     const [args, rules] = prepare(config);
 
     // may want to split the above into a different function as it is ipfs specific
