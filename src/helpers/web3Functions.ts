@@ -376,7 +376,7 @@ export const hexlifySources = (currency: Currency): Currency => {
  * @param account
  * @param config
  */
-export async function deploy721A (signer: any, account: string, config: Vapour721AConfig|any) {
+export async function deploy721A (signer: any, account: string, config: Vapour721AConfig) {
   let deploying = true;
   console.log('here')
 
@@ -424,28 +424,8 @@ export async function deploy721A (signer: any, account: string, config: Vapour72
     // todo not sure how this is being generated
     // config.baseURI = "ipfs://QmRZvLLo1unbbX8C1RUc135LQxfrsqWWiPYsp5UAwsNprL";
 
-    // config.currency = "0x25a4Dd4cd97ED462EB5228de47822e636ec3E31A"; // matic?
-    config.currency = "0x0000000000000000000000000000000000000000";
-  // todo add currency contract
-    // todo add erc20 info
 
 
-
-    config.maxSupply = parseInt(config.maxSupply);
-    config.soulbound = true;
-    config.royalty = parseInt(config.royalty);
-
-    config.phases = [
-      {
-        "start": "now",
-        "pricing": {
-          "type": 0,
-          "startPrice": 1
-        },
-        "allowedGroups": [],
-        "walletCap": ""
-      }
-    ]
 
     // todo hard code for now
 

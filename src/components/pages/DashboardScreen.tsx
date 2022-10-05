@@ -10,7 +10,7 @@ import {Canvas} from "@react-three/fiber";
 // import ReserveToken from "../3d/ReserveToken";
 import {InputAdornment} from "@mui/material";
 import {deploy721A} from "../../helpers/web3Functions";
-import {Contract, Signer} from "ethers";
+import {Contract, ethers, Signer} from "ethers";
 import {useWeb3React} from "@web3-react/core";
 import {Web3Provider} from "@ethersproject/providers";
 import {Phase} from "../../types/Phase";
@@ -36,8 +36,8 @@ export default function DashboardScreen({} : adminPanelProps) {
   const [collectionName, setCollectionName] = React.useState("Test");
   const [collectionSymbol, setCollectionSymbol] = React.useState("tTKN");
   const [description, setDescription] = React.useState("A Description");
-  const [supply, setSupply] = React.useState("20");
-  const [royaltyPercentage, setRoyaltyPercentage] = React.useState("20");
+  const [supply, setSupply] = React.useState(20);
+  const [royaltyPercentage, setRoyaltyPercentage] = React.useState(20);
   const [currency, setCurrency] = React.useState("MATIC");
   const [selectedImage, setSelectedImage] = useState<File|undefined>(undefined);
 
@@ -46,11 +46,11 @@ export default function DashboardScreen({} : adminPanelProps) {
   const [saleStart, setSaleStart] = React.useState("1/1/2000");
   const [saleEnd, setSaleEnd] = React.useState("1/1/2000"); // forever
   const [pricingRule, setPricingRule] = React.useState("Fixed");
-  const [price, setPrice] = React.useState("1");
+  const [price, setPrice] = React.useState(1);
   // no wallet cap
   // no restrictions on allowed groups
 
-  const [soulbound, setSoulBound] = React.useState("true");
+  const [soulbound, setSoulBound] = React.useState(true);
 
   // rain script
 
@@ -65,14 +65,14 @@ export default function DashboardScreen({} : adminPanelProps) {
     setCollectionName("Test");
     setCollectionSymbol("tTKN");
     setDescription("A Description");
-    setSupply("20");
-    setRoyaltyPercentage("20");
+    setSupply(20);
+    setRoyaltyPercentage(20);
     setCurrency("MATIC");
-    setSaleStart("1/1/2020");
-    setSaleEnd("1/1/2020");
+    // setSaleStart("1/1/2020");
+    // setSaleEnd("1/1/2020");
     setPricingRule("Fixed");
-    setPrice("1");
-    setSoulBound("true");
+    setPrice(1);
+    setSoulBound(true);
   }
 
   const handleChangeCollectionName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,28 +85,29 @@ export default function DashboardScreen({} : adminPanelProps) {
     setDescription(event.target.value);
   }
   const handleChangeSupply = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSupply(event.target.value);
+    setSupply(parseInt(event.target.value));
   }
   const handleChangeRoyaltyPercentage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRoyaltyPercentage(event.target.value);
+    setRoyaltyPercentage(parseInt(event.target.value));
   }
   const handleChangeCurrency = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrency(event.target.value);
   }
-  const handleChangeSaleStart = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSaleStart(event.target.value);
-  }
-  const handleChangeSaleEnd = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSaleEnd(event.target.value);
-  }
+  // const handleChangeSaleStart = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSaleStart(event.target.value);
+  // }
+  // const handleChangeSaleEnd = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSaleEnd(event.target.value);
+  // }
   const handleChangePricingRule = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPricingRule(event.target.value);
   }
   const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(event.target.value);
+    setPrice(parseInt(event.target.value));
   }
   const handleChangeSoulBound = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSoulBound(event.target.value);
+    let soulbound = event.target.value === 'true' ? true : false
+    setSoulBound(soulbound);
   }
   const handleChangeSelectedImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -147,14 +148,35 @@ export default function DashboardScreen({} : adminPanelProps) {
       description: description,
       imageFile: selectedImage,
       maxSupply: supply,
-      currency: currency,
+      currency: '0x0000000000000000000000000000000000000000',
       royalty: royaltyPercentage,
       recipient: account,
       owner: account,
       admin: account,
       useNativeToken: true,
+      currencyContract: undefined,
+      phases: [
+        {
+          "start": "now",
+          "pricing": {
+            "type": 0,
+            "startPrice": price
+          },
+          "allowedGroups": [],
+          "walletCap": ethers.BigNumber.from(ethers.constants.MaxUint256) // todo check this is ok being a BigNumber primarily
+        }
+      ],
       soulbound: soulbound,
+      erc20info: undefined,
+      mediaUploadResp: undefined,
+      baseURI: undefined
     }
+
+    // config.currency = "0x25a4Dd4cd97ED462EB5228de47822e636ec3E31A"; // matic?
+    // config.currency = "0x0000000000000000000000000000000000000000";
+    // todo add currency contract
+    // todo add erc20 info
+
 
     await deploy721A(signer, account, config);
   };
@@ -268,24 +290,24 @@ export default function DashboardScreen({} : adminPanelProps) {
               />
             </FormControl>
 
-            <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Sale Start</InputLabel>
-              <Input
-                id="component-helper"
-                value={saleStart}
-                onChange={handleChangeSaleStart}
-              />
-            </FormControl>
+            {/*<FormControl variant="standard">*/}
+            {/*  <InputLabel className="input-box-label" htmlFor="component-helper">Sale Start</InputLabel>*/}
+            {/*  <Input*/}
+            {/*    id="component-helper"*/}
+            {/*    value={saleStart}*/}
+            {/*    onChange={handleChangeSaleStart}*/}
+            {/*  />*/}
+            {/*</FormControl>*/}
 
 
-            <FormControl variant="standard">
-              <InputLabel className="input-box-label" htmlFor="component-helper">Sale End</InputLabel>
-              <Input
-                id="component-helper"
-                value={saleEnd}
-                onChange={handleChangeSaleEnd}
-              />
-            </FormControl>
+            {/*<FormControl variant="standard">*/}
+            {/*  <InputLabel className="input-box-label" htmlFor="component-helper">Sale End</InputLabel>*/}
+            {/*  <Input*/}
+            {/*    id="component-helper"*/}
+            {/*    value={saleEnd}*/}
+            {/*    onChange={handleChangeSaleEnd}*/}
+            {/*  />*/}
+            {/*</FormControl>*/}
 
             <FormControl variant="standard">
               <InputLabel className="input-box-label" htmlFor="component-helper">Pricing Rule</InputLabel>
